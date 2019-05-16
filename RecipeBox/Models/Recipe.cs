@@ -4,162 +4,188 @@ using MySql.Data.MySqlClient;
 
 namespace RecipeBox.Models
 {
-  public class Recipe
-  {
-    private string _name;
-    private string _description;
-    public int _cookTime;
-    public int _rate;
-    private int _id;
+public class Recipe
+{
+private string _name;
+private string _description;
+public int _cookTime;
+public int _rate;
+private int _id;
 
-    public Recipe (string name, string description, int cookTime, int rate, int id=0)
-    {
-      _name = name;
-      _description = description;
-      _cookTime = cookTime;
-      _rate = rate;
-      _id=id;
-    }
+public Recipe (string name, string description, int cookTime, int rate, int id=0)
+{
+	_name = name;
+	_description = description;
+	_cookTime = cookTime;
+	_rate = rate;
+	_id=id;
+}
 
-    public string GetName()
-    {
-      return _name;
-    }
+public override bool Equals (System.Object obj)
+{
+	if (!(obj is Recipe))
+	{
+		return false;
 
-    public string GetDescription()
-    {
-      return _description;
-    }
+	}
+	else
+	{
+		Recipe newRecipe = (Recipe) obj;
+		bool idEquality = this.GetId().Equals (newRecipe.GetId());
+		bool nameEquality = this.GetName().Equals (newRecipe.GetName());
+		bool descriptionEquality = this.GetDescription().Equals (newRecipe.GetDescription());
 
-    public int GetCookTime()
-    {
-      return _cookTime;
-    }
+		bool cookTimeEquality = this.GetCookTime().Equals (newRecipe.GetCookTime());
 
-    public int GetRate()
-    {
-      return _rate;
-    }
+		bool rateEquality = this.GetRate().Equals (newRecipe.GetRate());
 
-    public int GetId()
-    {
-      return _id;
-    }
+
+		return (idEquality && nameEquality &&  descriptionEquality && cookTimeEquality &&rateEquality );
+
+	}
+}
+
+public string GetName()
+{
+	return _name;
+}
+
+public string GetDescription()
+{
+	return _description;
+}
+
+public int GetCookTime()
+{
+	return _cookTime;
+}
+
+public int GetRate()
+{
+	return _rate;
+}
+
+public int GetId()
+{
+	return _id;
+}
 
 public static List<Recipe> GetAll()
 
 
 {
-  List<Recipe> allRecipes = new List<Recipe>{};
-  MySqlConnection conn = DB.Connection();
-  conn.Open();
-  MySqlCommand cmd = conn.CreateCommand();
-  cmd.CommandText = @"SLECT * FROM recipes;";
+	List<Recipe> allRecipes = new List<Recipe> {
+	};
+	MySqlConnection conn = DB.Connection();
+	conn.Open();
+	MySqlCommand cmd = conn.CreateCommand();
+	cmd.CommandText = @"SELECT * FROM recipes;";
 
-  MySqlDataReader rdr = cmd.ExecuteReader();
-  while(rdr.Read())
-  {
-    int id = rdr.GetInt32(0);
-    string name = rdr.GetString(1);
-    string description = rdr.GetString(2);
-    int cookTime = rdr.GetInt32(3);
-    int rate = rdr.GetInt32(4);
+	MySqlDataReader rdr = cmd.ExecuteReader();
+	while(rdr.Read())
+	{
+		int id = rdr.GetInt32(0);
+		string name = rdr.GetString(1);
+		string description = rdr.GetString(2);
+		int cookTime = rdr.GetInt32(3);
+		int rate = rdr.GetInt32(4);
 
-    allRecipes.Add (new Recipe (name,description,cookTime,rate));
+		allRecipes.Add (new Recipe (name,description,cookTime,rate,id));
 
 
-  }
-    return allRecipes;
+	}
+	return allRecipes;
 }
 
 public void Save()
 {
-  MySqlConnection conn = DB.Connection();
-  conn.Open();
-  MySqlCommand cmd = conn.CreateCommand();
-  cmd.CommandText = @"INSERT INTO recipes (name, description, cooktime, rate ) VALUES (@Name, @Description, @CookTime, @Rate);";
+	MySqlConnection conn = DB.Connection();
+	conn.Open();
+	MySqlCommand cmd = conn.CreateCommand();
+	cmd.CommandText = @"INSERT INTO recipes (name, description, cooktime, rate ) VALUES (@Name, @Description, @CookTime, @Rate);";
 
-  MySqlParameter nameParameter = new MySqlParameter ("@Name", this._name);
-  cmd.Parameters.Add(nameParameter);
+	MySqlParameter nameParameter = new MySqlParameter ("@Name", this._name);
+	cmd.Parameters.Add(nameParameter);
 
 
-  MySqlParameter descriptionParameter = new MySqlParameter("@Description", this._description);
-  cmd.Parameters.Add(descriptionParameter);
+	MySqlParameter descriptionParameter = new MySqlParameter("@Description", this._description);
+	cmd.Parameters.Add(descriptionParameter);
 
-  MySqlParameter cookTimeParameter = new MySqlParameter("@CookTime", this._cookTime);
-  cmd.Parameters.Add(cookTimeParameter);
+	MySqlParameter cookTimeParameter = new MySqlParameter("@CookTime", this._cookTime);
+	cmd.Parameters.Add(cookTimeParameter);
 
-  MySqlParameter rateParameter = new MySqlParameter ("@Rate", this._rate);
-  cmd.Parameters.Add(rateParameter);
+	MySqlParameter rateParameter = new MySqlParameter ("@Rate", this._rate);
+	cmd.Parameters.Add(rateParameter);
 
-cmd.ExecuteNonQuery();
+	cmd.ExecuteNonQuery();
 
-_id = (int)cmd.LastInsertedId;
+	this._id = (int)cmd.LastInsertedId;
 
-conn.Close();
-if(conn != null) conn.Dispose();
+	conn.Close();
+	if(conn != null) conn.Dispose();
 }
 
-public static void DeleteAll()
-{
-  MySqlConnection conn = DB.Connection();
-  conn.Open();
-  MySqlCommand cmd = conn.CreateCommand();
-  cmd.CommandText = @"DELETE * FROM recipes;";
-  cmd.ExecuteNonQuery();
-
-  conn.Close();
-  if ( conn != null) conn.Dispose();
-}
 
 
 public void AddTag (Tag tag)
 {
-  MySqlConnection conn = DB.Connection();
-  conn.Open();
-  MySqlCommand cmd = conn.CreateCommand();
-  cmd.CommandText = @"INSERT INTO tags_recipes (tag_id,recipe_id) VALUES (@TagId, @RecipeId);";
+	MySqlConnection conn = DB.Connection();
+	conn.Open();
+	MySqlCommand cmd = conn.CreateCommand();
+	cmd.CommandText = @"INSERT INTO tags_recipes (tag_id,recipe_id) VALUES (@TagId, @RecipeId);";
 
-  MySqlParameter recipeId = new MySqlParameter ("@RecipeId", this._id);
-  MySqlParameter tagId = new MySqlParameter ("@TagId", this._id);
-  cmd.Parameters.Add(recipeId);
-  cmd.Parameters.Add(tagId);
+	MySqlParameter recipeId = new MySqlParameter ("@RecipeId", this._id);
+	MySqlParameter tagId = new MySqlParameter ("@TagId", tag.GetId());
+	cmd.Parameters.Add(recipeId);
+	cmd.Parameters.Add(tagId);
 
-  cmd.ExecuteNonQuery();
+	cmd.ExecuteNonQuery();
 
-  conn.Close();
-  if(conn != null) conn.Dispose();
+	conn.Close();
+	if(conn != null) conn.Dispose();
 }
 
 
 public List<Tag> GetTags()
 {
 
-  List<Tag> allTags = new List<Tag>{};
-  MySqlConnection conn = DB.Connection();
-  conn.Open();
-  MySqlCommand cmd = conn.CreateCommand();
-  cmd.CommandText = @"SELECT tags. *
+	List<Tag> allTags = new List<Tag> {
+	};
+	MySqlConnection conn = DB.Connection();
+	conn.Open();
+	MySqlCommand cmd = conn.CreateCommand();
+	cmd.CommandText = @"SELECT tags. *
                     FROM recipes
-                    JOIN tags_recips ON (recipes.id = tags_recipes.recipe_id)
+                    JOIN tags_recipes ON (recipes.id = tags_recipes.recipe_id)
                     JOIN tags ON (tags.id = tags_recipes.tag_id)
                     WHERE recipes.id = @RecipeId;";
 
 
-MySqlParameter recipeParameter = new MySqlParameter ("@RecipeId", this._id);
-cmd.Parameters.Add(recipeParameter);
-MySqlDataReader rdr = cmd.ExecuteReader();
+	MySqlParameter recipeParameter = new MySqlParameter ("@RecipeId", this._id);
+	cmd.Parameters.Add(recipeParameter);
+	MySqlDataReader rdr = cmd.ExecuteReader();
 
-while (rdr.Read())
-{
-  int id = rdr.GetInt32(0);
-  string name = rdr.GetString(1);
-  allTags.Add(new Tag(name,id));
+	while (rdr.Read())
+	{
+		int id = rdr.GetInt32(0);
+		string name = rdr.GetString(1);
+		allTags.Add(new Tag(name,id));
+	}
+
+	conn.Close();
+	if(conn != null) conn.Dispose();
+	return allTags;
 }
 
-conn.Close();
-if(conn != null) conn.Dispose();
-return allTags;
-  }
+public static void ClearAll()
+{
+	MySqlConnection conn = DB.Connection();
+	conn.Open();
+	MySqlCommand cmd = conn.CreateCommand();
+	cmd.CommandText = @"DELETE FROM recipes;";
+	cmd.ExecuteNonQuery();
+	conn.Close();
+	if(conn != null) conn.Dispose();
+}
 }
 }

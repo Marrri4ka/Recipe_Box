@@ -1,0 +1,15 @@
+<h1>Add a new recipe</h1>
+<form action="/recipes" method="post">
+  <label for="recipeName">Add a title</label>
+  <input name="recipeName" id ="recipeName" type="text" required>
+
+  <label for="recipeDescription">How to cook</label>
+  <input name="recipeDescription" id ="recipeDescription" type="text" required>
+
+  <label for="cookTime">Time to cook</label>
+  <input name="cookTime" id ="cookTime" type="number" required>
+
+  <label for="rate">Rate it</label>
+  <input name="rate" id ="rate" type="number" required>
+  <button type="submit">Add</button>
+</form>
