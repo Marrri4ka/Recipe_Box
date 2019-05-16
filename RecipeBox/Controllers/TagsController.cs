@@ -28,5 +28,27 @@ public ActionResult Create(string tagName)
 	List<Tag> allTags = Tag.GetAll();
 	return View("Index",allTags);
 }
+
+[HttpGet("/tag/{id}")]
+public ActionResult Show(int id)
+{
+	Tag newTag = Tag.Find(id);
+	ViewBag.Recipes = Recipe.GetAll();
+	ViewBag.Tag = Tag.Find(id);
+	ViewBag.Recipes1 = newTag.GetRecipes();
+	return View();
+}
+
+[HttpPost("/tags/{id}/addrecipe")]
+public ActionResult AddRecipe(int id, int recipeId)
+{
+
+	Tag newTag = Tag.Find(id);
+	ViewBag.Recipes = Recipe.GetAll();
+	ViewBag.Tag = Tag.Find(id);
+	ViewBag.Recipes1 = newTag.GetRecipes();
+
+	return View ("Show");
+}
 }
 }

@@ -77,8 +77,34 @@ public void Save_SaveTagToDataVase()
 	List<Tag> result = Tag.GetAll();
 	CollectionAssert.AreEqual (allTags,result);
 }
-//AddRecipe Find Tag
 
+[TestMethod]
+public void ClearAll_ReturnEmptyList()
+{
+	Tag newTag = new Tag("pasta",1);
+	newTag.Save();
+	Tag.ClearAll();
+	List<Tag> newList = new List<Tag>{};
+	List<Tag> result = Tag.GetAll();
+	CollectionAssert.AreEqual (newList,result);
+}
+
+[TestMethod]
+public void GetRecipes_ReturnTagWithAllRecipes()
+{
+Tag newTag = new Tag("pasta",1);
+Recipe newRecipe = new Recipe ("jushka","lalal",30,3,2);
+Recipe newRecipe2 = new Recipe ("jushka","lalal",30,3,1);
+newTag.Save();
+newRecipe.Save();
+newRecipe2.Save();
+newTag.AddRecipe(newRecipe);
+newTag.AddRecipe(newRecipe2);
+List<Recipe> allRecipes = new List<Recipe>{newRecipe,newRecipe2};
+List<Recipe> result = newTag.GetRecipes();
+CollectionAssert.AreEqual(allRecipes,result);
+
+}
 
 }
 }

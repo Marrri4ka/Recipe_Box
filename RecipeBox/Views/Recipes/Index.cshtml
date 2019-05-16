@@ -6,6 +6,6 @@
  {
  @foreach (var recipe in Model)
  {
- <a href="/recipe/@recipe.GetId()">@recipe.GetName()</a><br>
+ <a href="/recipe/@recipe.GetId()">@recipe.GetName() @recipe.GetRate()</a><br>
  }
  }

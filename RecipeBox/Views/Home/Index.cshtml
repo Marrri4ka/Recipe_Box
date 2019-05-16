@@ -9,18 +9,18 @@
 </head>
 
 <body>
-  hi
+  <a href="/recipes">View All Recipes</a>
+  <a href="/recipes/new">Add a new recipe</a>
+  <a href="/tags/new">Add a new tag</a>
+
+
   <h1>All my tags</h1>
 
-  @foreach (var tag in Model)
+@foreach (var tag in Model)
   {
-  @tag.GetName();
+<li><a href="/tag/@tag.GetId()">@tag.GetName() </a></li>;
   }
 
 </body>
 
 </html>
-<a href="/recipes">View All Recipes</a>
-<a href="/tags">View All Tags</a>
-<a href="/recipes/new">Add a new recipe</a>
-<a href="/tags/new">Add a new tag</a>

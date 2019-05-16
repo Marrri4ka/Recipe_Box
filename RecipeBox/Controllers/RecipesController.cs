@@ -35,8 +35,6 @@ public ActionResult Show(int id)
 	ViewBag.Tags = Tag.GetAll();
 	ViewBag.Recipe = Recipe.Find(id);
 	ViewBag.Tags1 = newRecipe.GetTags();
-
-
 	return View();
 }
 [HttpPost("/recipes/{id}/addtag")]
