@@ -243,5 +243,30 @@ public static List<Recipe> FilterRecipes(string userRecipe)
 	if (conn != null) conn.Dispose();
 	return allRecipes;
 }
+
+public static List<Recipe> Sort()
+{
+	List<Recipe> allRecipes = new List<Recipe>{};
+	MySqlConnection conn = DB.Connection();
+	MySqlCommand cmd = conn.CreateCommand();
+	cmd.CommandText =@"SELECT * FROM recipes ORDER BY rate;";
+
+	MySqlDataReader rdr = cmd.ExecuteReader();
+	while(rdr.Read())
+	{
+		int id = rdr.GetInt32(0);
+		string name = rdr.GetString(1);
+		string description = rdr.GetString(2);
+		int cookTime = rdr.GetInt32(3);
+		int rate = rdr.GetInt32(4);
+		Recipe newRecipe = new Recipe(name,description,cookTime,rate,id);
+		allRecipes.Add(newRecipe);
+	}
+
+	conn.Close();
+	if(conn != null) conn.Dispose();
+	return allRecipes;
+}
+
 }
 }

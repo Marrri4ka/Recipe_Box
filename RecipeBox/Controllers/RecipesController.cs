@@ -57,5 +57,15 @@ public ActionResult FilterRec(string userRecipe)
 	return View("Index",filteredRecipes );
 }
 
+[HttpGet("/recipes_sort")]
+public ActionResult SortRec()
+{
+
+	List<Recipe> sortedRecipes = Recipe.Sort();
+
+	return View("Index",sortedRecipes);
+}
+
+
 }
 }
