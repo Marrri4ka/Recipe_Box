@@ -217,5 +217,31 @@ public static Recipe Find(int id)
 	return (new Recipe (name,description,cookTime,rate,id));
 
 }
+
+public static List<Recipe> FilterRecipes(string userRecipe)
+{
+	List<Recipe> allRecipes = new List<Recipe>{};
+	MySqlConnection conn = DB.Connection();
+	conn.Open();
+	MySqlCommand cmd = conn.CreateCommand();
+	cmd.CommandText = @"SELECT * FROM recipes WHERE name = @userRecipe;";
+	MySqlParameter nameParameter = new MySqlParameter ("@userRecipe",userRecipe);
+	cmd.Parameters.Add(nameParameter);
+	MySqlDataReader rdr = cmd.ExecuteReader();
+
+	while(rdr.Read())
+	{
+		int id = rdr.GetInt32(0);
+		string name = rdr.GetString(1);
+		string description = rdr.GetString(2);
+		int cookTime = rdr.GetInt32(3);
+		int rate = rdr.GetInt32(4);
+		allRecipes.Add(new Recipe(name,description,cookTime,rate,id));
+	}
+
+	conn.Close();
+	if (conn != null) conn.Dispose();
+	return allRecipes;
+}
 }
 }

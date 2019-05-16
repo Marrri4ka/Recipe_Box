@@ -50,5 +50,12 @@ public ActionResult AddTag(int id, int tagId)
 	return View ("Show");
 }
 
+[HttpPost("/search_recipe")]
+public ActionResult FilterRec(string userRecipe)
+{
+	List<Recipe> filteredRecipes = Recipe.FilterRecipes(userRecipe);
+	return View("Index",filteredRecipes );
+}
+
 }
 }
