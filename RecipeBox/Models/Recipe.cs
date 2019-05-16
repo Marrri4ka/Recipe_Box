@@ -187,5 +187,35 @@ public static void ClearAll()
 	conn.Close();
 	if(conn != null) conn.Dispose();
 }
+
+public static Recipe Find(int id)
+{
+	MySqlConnection conn = DB.Connection();
+	conn.Open();
+	MySqlCommand cmd = conn.CreateCommand();
+	cmd.CommandText = @"SELECT * FROM recipes WHERE id = (@searchid);";
+	MySqlParameter idParameter = new MySqlParameter ("@searchid",id);
+	cmd.Parameters.Add(idParameter);
+
+	MySqlDataReader rdr = cmd.ExecuteReader();
+	int foundId = 0;
+	string name ="";
+	string description ="";
+	int cookTime = 0;
+	int rate =0;
+	while(rdr.Read())
+	{
+		foundId = rdr.GetInt32(0);
+		name = rdr.GetString(1);
+		description = rdr.GetString(2);
+		cookTime = rdr.GetInt32(3);
+		rate = rdr.GetInt32(4);
+
+	}
+	conn.Close();
+	if ( conn != null) conn.Dispose();
+	return (new Recipe (name,description,cookTime,rate,id));
+
+}
 }
 }

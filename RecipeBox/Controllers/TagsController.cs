@@ -19,5 +19,14 @@ public ActionResult New()
 {
 	return View();
 }
+
+[HttpPost("/tags")]
+public ActionResult Create(string tagName)
+{
+	Tag newtag = new Tag(tagName);
+	newtag.Save();
+	List<Tag> allTags = Tag.GetAll();
+	return View("Index",allTags);
+}
 }
 }

@@ -1,0 +1,20 @@
+@ViewBag.Recipe.GetName()
+@ViewBag.Recipe.GetDescription()
+@ViewBag.Recipe.GetCookTime()
+@ViewBag.Recipe.GetRate()
+@ViewBag.Recipe.GetId()
+<br/>
+Recipe has these tags:
+@foreach (var tag in ViewBag.Tags1) {
+  @tag.GetName() <br/>
+}
+<br/>
+
+<form action="/recipes/@ViewBag.Recipe.GetId()/addtag" method="post">
+<select name="tagId" id="tagId">
+@foreach (var tag in ViewBag.Tags) {
+<option value="@tag.GetId()">@tag.GetName()</option>
+}
+</select>
+<button type="submit">Select</button>
+</form>
