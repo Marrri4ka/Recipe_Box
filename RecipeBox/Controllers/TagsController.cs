@@ -20,14 +20,7 @@ public ActionResult New()
 	return View();
 }
 
-[HttpPost("/tags")]
-public ActionResult Create(string tagName)
-{
-	Tag newtag = new Tag(tagName);
-	newtag.Save();
-	List<Tag> allTags = Tag.GetAll();
-	return View("Index",allTags);
-}
+
 
 [HttpGet("/tag/{id}")]
 public ActionResult Show(int id)
@@ -44,18 +37,12 @@ public ActionResult AddRecipe(int id, int recipeId)
 {
 
 	Tag newTag = Tag.Find(id);
+	newTag.AddRecipe(Recipe.Find(recipeId));
 	ViewBag.Recipes = Recipe.GetAll();
 	ViewBag.Tag = Tag.Find(id);
 	ViewBag.Recipes1 = newTag.GetRecipes();
 
 	return View ("Show");
-}
-
-[HttpPost("/search")]
-public ActionResult Filter(string userInput)
-{
-	List<Tag> filteredTags = Tag.FilterAll(userInput);
-	return View("Index",filteredTags);
 }
 
 }

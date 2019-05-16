@@ -15,5 +15,23 @@ namespace RecipeBox.Controllers
           return View (allTags);
     }
 
+
+    [HttpPost("/search")]
+    public ActionResult Filter(string userInput)
+    {
+    	List<Tag> filteredTags = Tag.FilterAll(userInput);
+    	return View("Index",filteredTags);
+    }
+
+    [HttpPost("/tags")]
+    public ActionResult Create(string tagName)
+    {
+    	Tag newtag = new Tag(tagName);
+    	newtag.Save();
+    	List<Tag> allTags = Tag.GetAll();
+    	return View("Index",allTags);
+    }
+
+
   }
 }
