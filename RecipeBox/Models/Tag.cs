@@ -191,5 +191,36 @@ public static Tag Find (int id)
 
 
 
+public static List<Tag> FilterAll(string userInput)
+{
+	List<Tag> allTags = new List<Tag>{};
+	MySqlConnection conn = DB.Connection();
+	conn.Open();
+	MySqlCommand cmd = conn.CreateCommand();
+	cmd.CommandText = @"SELECT * FROM tags WHERE name = @userInput;";
+	MySqlParameter nameParameter = new MySqlParameter("@userInput", userInput);
+	cmd.Parameters.Add(nameParameter);
+
+	MySqlDataReader rdr = cmd.ExecuteReader();
+
+	while(rdr.Read())
+	{
+		int id = rdr.GetInt32(0);
+		string name = rdr.GetString(1);
+		allTags.Add(new Tag(name,id));
+	}
+
+	conn.Close();
+	if(conn != null) conn.Dispose();
+	return allTags;
+}
+
+
+
+
+
+
+
+
 }
 }

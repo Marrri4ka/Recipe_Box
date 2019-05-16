@@ -5,22 +5,87 @@
 
 <head>
   <meta charset="utf-8">
-  <title></title>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<link rel='stylesheet' href='~/css/styles.css'>
+  <title>recipes</title>
 </head>
 
 <body>
-  <a href="/recipes">View All Recipes</a>
-  <a href="/recipes/new">Add a new recipe</a>
-  <a href="/tags/new">Add a new tag</a>
 
 
+
+
+  <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+
+          <div class="navbar-header">
+              <button button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" rel="home" href="#" title="Buy Sell Rent Everyting">
+                  <img style="max-width:100px; margin-top: -7px;"
+                       src="~/img/food.svg"  height="50" width="50">
+              </a>
+          </div>
+
+          <div id="navbar" class="collapse navbar-collapse navbar-responsive-collapse">
+              <ul class="nav navbar-nav">
+                  <li class="active">  <a href="/recipes">View All Recipes</a></li>
+                  <li><a href="/recipes/new">Add a new recipe</a></li>
+                  <li>  <a href="/tags/new">Add a new tag</a></li>
+
+              </ul>
+  			<form class="navbar-form navbar-right" role="search" method="post" id="searchform" action="/search">
+  				<div class="form-group">
+  					<input name="userInput" id="userInput" type="text" class="search-query form-control" autocomplete="off">
+  				</div>
+          <button type="submit">Search</button>
+  			</form>
+  		</div>
+
+      </div>
+  </div>
   <h1>All my tags</h1>
 
-@foreach (var tag in Model)
-  {
-<li><a href="/tag/@tag.GetId()">@tag.GetName() </a></li>;
-  }
 
+
+  <section class="details-card">
+      <div class="container">
+
+
+
+
+          <div class="row">
+            @foreach (var tag in Model)
+              {
+              <div class="col-md-4">
+                  <div class="card-content">
+                      <div class="card-img">
+                          <img src="~/img/pic.png" alt="">
+
+                      </div>
+                      <div class="card-desc">
+                          <h3> @tag.GetName()</h3>
+
+                              <a href="/tag/@tag.GetId()" class="btn-card">Show recipes</a>
+                      </div>
+                  </div>
+              </div>
+}
+
+          </div>
+
+      </div>
+  </section>
 </body>
 
 </html>

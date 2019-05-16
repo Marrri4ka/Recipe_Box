@@ -1,15 +1,45 @@
-<h1>Add a new recipe</h1>
-<form action="/recipes" method="post">
-  <label for="recipeName">Add a title</label>
-  <input name="recipeName" id ="recipeName" type="text" required>
 
-  <label for="recipeDescription">How to cook</label>
-  <input name="recipeDescription" id ="recipeDescription" type="text" required>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel='stylesheet' href='~/css/styles.css'>
+    <title>recipe</title>
+  </head>
+  <center><body>
+    <div class="container contact-form">
+                <div class="contact-image">
+                    <img src="~/img/food.svg"  height="80" width="80"alt="rocket_contact"/>
+                </div>
+                <form action="/recipes" method="post">
+                    <h3>Add a new recipe</h3>
 
-  <label for="cookTime">Time to cook</label>
-  <input name="cookTime" id ="cookTime" type="number" required>
-
-  <label for="rate">Rate it</label>
-  <input name="rate" id ="rate" type="number" required>
-  <button type="submit">Add</button>
-</form>
+                   <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input  required type="text" name="recipeName" id ="recipeName"class="form-control" placeholder="Title" value="" />
+                            </div>
+                            <div class="form-group">
+                                <input  name="cookTime" id ="cookTime" type="number" required  class="form-control" placeholder="Time to cook *" value="" />
+                            </div>
+                            <div class="form-group">
+                                <input name="rate" id ="rate" type="number" required  class="form-control" placeholder="Rate it *" value="" />
+                            </div>
+                            <div class="form-group">
+                                <button type="submit">Add</button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <textarea  name="recipeDescription" id ="recipeDescription" type="text" required class="form-control" placeholder="Instruction *" style="width: 100%; height: 150px;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+    </div>
+  </body>
+</center>
+</html>
