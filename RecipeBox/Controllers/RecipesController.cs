@@ -57,7 +57,7 @@ public ActionResult FilterRec(string userRecipe)
 	return View("Index",filteredRecipes );
 }
 
-[HttpGet("/recipes_sort")]
+[HttpPost("/recipes_sort")]
 public ActionResult SortRec()
 {
 

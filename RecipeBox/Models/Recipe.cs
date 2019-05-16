@@ -248,6 +248,7 @@ public static List<Recipe> Sort()
 {
 	List<Recipe> allRecipes = new List<Recipe>{};
 	MySqlConnection conn = DB.Connection();
+	conn.Open();
 	MySqlCommand cmd = conn.CreateCommand();
 	cmd.CommandText =@"SELECT * FROM recipes ORDER BY rate;";
 
